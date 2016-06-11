@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title></title>
+  </head>
+  <body>
+    <div class='container' id='container'>
+    </div>
+    <div id="interactive" class="viewport"></div>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/superagent/0.15.7/superagent.min.js'></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/vue/0.11.5/vue.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/quagga/0.11.2/quagga.min.js'></script>
+    <script type="text/javascript">
+      Quagga.init({
+        inputStream: {
+          type: "LiveStream",
+          constraints: {
+              width: 640,
+              height: 480,
+              facingMode: "environment" // or user
+          }
+        },
+        locator: {
+            patchSize: "medium",
+            halfSample: true
+        },
+        numOfWorkers: 4,
+        decoder: {
+            readers : [{
+                format: "code_128_reader",
+                config: {}
+            }]
+        },
+        locate: true
+      }, function(err) {
+        if(err) {
+          console.log(err);
+          return;
+        }
+        console.log("Initialization finished. Ready to start");
+        Quagga.start();
+      }
+      );
+      Quagga.onDetected(function(result) {
+        console.log(result);
+      });
+    </script>
+  </body>
+</html>
+
